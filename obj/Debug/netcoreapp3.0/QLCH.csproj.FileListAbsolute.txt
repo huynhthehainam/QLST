@@ -1,0 +1,11 @@
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.exe
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.deps.json
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.runtimeconfig.json
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.runtimeconfig.dev.json
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\QLCH.pdb
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.csprojAssemblyReference.cache
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfoInputs.cache
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfo.cs
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.dll
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.pdb
