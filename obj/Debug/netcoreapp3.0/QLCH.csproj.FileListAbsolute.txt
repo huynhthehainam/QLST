@@ -9,3 +9,21 @@ E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfoInputs.cache
 E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfo.cs
 E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.dll
 E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.pdb
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.exe
+C:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.deps.json
+C:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.runtimeconfig.json
+C:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.runtimeconfig.dev.json
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\QLCH.pdb
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\BouncyCastle.Crypto.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\Google.Protobuf.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\MySql.Data.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\Renci.SshNet.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\SshNet.Security.Cryptography.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\bin\Debug\netcoreapp3.0\System.Xml.XPath.XmlDocument.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.csprojAssemblyReference.cache
+c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfoInputs.cache
+c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfo.cs
+C:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.csproj.CopyComplete
+c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.dll
+c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.pdb

@@ -28,6 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            try
+            {
+                DBConnection = new MySql.Data.MySqlClient.MySqlConnection(this.DBConnectionString);
+                DBConnection.Open();
+                System.Console.WriteLine("MySQL Version: {0}", DBConnection.ServerVersion);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Không thể kết nối tới dữ liệu!");
+                System.Console.WriteLine("Error: {0}", ex.ToString());
+                this.Close();
+            }
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
@@ -57,8 +69,9 @@
             this.LoginButton.Text = "Đăng nhập";
             this.LoginButton.Click += new System.EventHandler(this.LoginButtonClick);
             this.Controls.Add(LoginButton);
-        }
 
+        }
+        private string DBConnectionString = @"server = localhost; userid = root; password = kid1412; database = qlch";
         private System.Windows.Forms.TextBox PasswordBox = new System.Windows.Forms.TextBox();
         private System.Windows.Forms.Label PassLabel = new System.Windows.Forms.Label();
         private System.Windows.Forms.Label StoreName = new System.Windows.Forms.Label();
@@ -66,6 +79,7 @@
         private System.Drawing.Font StoreNameFont = new System.Drawing.Font("Arial", 24, System.Drawing.FontStyle.Bold);
 
         private System.Windows.Forms.Button LoginButton = new System.Windows.Forms.Button();
+        private MySql.Data.MySqlClient.MySqlConnection DBConnection;
         #endregion
     }
 }

@@ -12,14 +12,17 @@ namespace QLCH
 {
     public partial class Navigator : Form
     {
-        public Navigator()
+        private MySql.Data.MySqlClient.MySqlConnection DBConnection;
+        public Navigator(MySql.Data.MySqlClient.MySqlConnection DBConnection)
         {
+            this.DBConnection = DBConnection;
             InitializeComponent();
         }
 
         private void CreateInvoiceButtonClick(object sender, EventArgs e)
         {
-
+            NewInvoice NewInvoicePage = new NewInvoice(this.DBConnection);
+            NewInvoicePage.ShowDialog();
         }
 
         private void DebtButtonClick(object sender, EventArgs e)

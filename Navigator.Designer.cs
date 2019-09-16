@@ -37,7 +37,7 @@ namespace QLCH
             this.CreateNewInvoice.Location = new System.Drawing.Point(20, 20);
             this.CreateNewInvoice.Size = new System.Drawing.Size(100, 30);
             this.CreateNewInvoice.Text = "Tạo hóa đơn";
-            this.Click += new System.EventHandler(this.CreateInvoiceButtonClick);
+            this.CreateNewInvoice.Click += new System.EventHandler(this.CreateInvoiceButtonClick);
 
             this.Controls.Add(CreateNewInvoice);
 
