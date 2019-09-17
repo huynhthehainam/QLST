@@ -16,6 +16,7 @@ namespace QLCH
         private MySql.Data.MySqlClient.MySqlConnection DBConnection;
         private DataTable WareHouseTable = new DataTable();
         private DataTable CustomerTable = new DataTable();
+        private DataTable InvoiceTable = new DataTable();
         private int IdCustomer = -1;
         public NewInvoice(MySql.Data.MySqlClient.MySqlConnection DBConnection)
         {
@@ -55,6 +56,69 @@ namespace QLCH
             this.CustomerName.AutoCompleteSource = AutoCompleteSource.CustomSource;
             this.CustomerName.AutoCompleteMode = AutoCompleteMode.Suggest;
             this.CustomerName.AutoCompleteCustomSource = SuggestCustomerCollection;
+
+            MySqlDataAdapter AdapterGetInvoice = new MySqlDataAdapter("Select * from qlch.invoice", this.DBConnection);
+            AdapterGetInvoice.Fill(InvoiceTable);
+        }
+
+
+        private void SaveButtonClick(object sender, EventArgs e)
+        {
+            if (this.CustomerName.Text != "")
+            {
+                int IdCustomer = 0;
+                int IdInvoice = 0;
+
+                DataRow[] CustomerTableFilt = this.CustomerTable.Select(string.Format("Name ='{0}' AND Information = '{1}'", this.CustomerName.Text, this.CustomerInformation.Text));
+                if (CustomerTableFilt.Length == 0)
+                {
+
+                    while (true)
+                    {
+                        DataRow[] CustomerTableIdFilt = CustomerTable.Select(string.Format("Id = '{0}'", IdCustomer.ToString()));
+                        if (CustomerTableIdFilt.Length == 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            IdCustomer++;
+                        }
+                    }
+                    MySqlCommand AddNewCustomerCommand = new MySqlCommand(string.Format("Insert into qlch.customer(Id,Name,Information) values('{0}','{1}','{2}')", IdCustomer.ToString(), this.CustomerName.Text, this.CustomerInformation.Text), DBConnection);
+                    AddNewCustomerCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    IdCustomer = Int32.Parse(CustomerTableFilt[0]["Id"].ToString());
+                }
+                if (this.InvoiceDataView.RowCount > 0)
+                {
+                    while (true)
+                    {
+                        DataRow[] InvoicetableIdFilt = InvoiceTable.Select(string.Format("Id = '{0}'", IdInvoice));
+                        if (InvoicetableIdFilt.Length == 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            IdInvoice++;
+                        }
+                    }
+                    MySqlCommand AddNewInvoiceCommand = new MySqlCommand(string.Format("insert into qlch.invoice(Id, IdCustomer, TotalMoney, Deposit, Date) values('{0}','{1}','{2}','{3}','{4}')", IdInvoice.ToString(), IdCustomer.ToString(), this.TotalCostInvoice.Text, this.Deposit.Text, DateTime.Now.ToString("yyyyMMdd")), DBConnection);
+                    AddNewInvoiceCommand.ExecuteNonQuery();
+                    Console.WriteLine(this.InvoiceDataView.RowCount);
+                    foreach (DataGridViewRow RowView in this.InvoiceDataView.Rows)
+                    {
+                        // Console.WriteLine(RowView.Cells["Index"].Value.ToString());
+                        MySqlCommand AddNewInvoiceDetailCommand = new MySqlCommand(string.Format("insert into qlch.invoicedetail(IdInvoice, IdWareHouse,Quantity,Unit,Notice) values ('{0}','{1}','{2}','{3}','{4}')", IdInvoice,
+                        RowView.Cells["IdWareHouse"].Value.ToString(), RowView.Cells["Quantity"].Value.ToString(), RowView.Cells["Unit"].Value.ToString(),
+                         RowView.Cells["Notice"].Value.ToString()), this.DBConnection);
+                    }
+                }
+            }
+            this.Close();
         }
 
         private void CustomerNameTextChanged(object sender, EventArgs e)
@@ -83,7 +147,11 @@ namespace QLCH
         {
             if (this.MH.Text != "" && int.TryParse(this.Quantity.Text, out int n) && this.Unit.Text != "" && int.TryParse(this.UnitPrice.Text, out int n1))
             {
-                this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count, this.MH.Text, this.Quantity.Text, this.Unit.Text, this.UnitPrice.Text, this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
+                DataRow[] WareHouseTableFilt = WareHouseTable.Select(string.Format("Name = '{0}'", this.MH.Text));
+                if (WareHouseTableFilt.Length > 0)
+                {
+                    this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count, WareHouseTableFilt[0]["Id"], this.MH.Text, this.Quantity.Text, this.Unit.Text, this.UnitPrice.Text, this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
+                }
                 ResetTextBox();
             }
         }

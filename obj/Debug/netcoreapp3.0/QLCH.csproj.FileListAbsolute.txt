@@ -27,3 +27,10 @@ c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.AssemblyInfo.cs
 C:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.csproj.CopyComplete
 c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.dll
 c:\Users\Hai Nam\Desktop\C#\QLST\obj\Debug\netcoreapp3.0\QLCH.pdb
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\BouncyCastle.Crypto.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\Google.Protobuf.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\MySql.Data.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\Renci.SshNet.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\SshNet.Security.Cryptography.dll
+E:\C#\QLCH\bin\Debug\netcoreapp3.0\System.Xml.XPath.XmlDocument.dll
+E:\C#\QLCH\obj\Debug\netcoreapp3.0\QLCH.csproj.CopyComplete

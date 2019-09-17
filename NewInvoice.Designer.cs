@@ -33,7 +33,7 @@ namespace QLCH
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 800);
             this.Text = "Tạo hoá đơn mới";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            // this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
             this.CustomerNameLabel.Location = new System.Drawing.Point(10, 10);
             this.CustomerNameLabel.Size = new System.Drawing.Size(100, 30);
@@ -140,14 +140,16 @@ namespace QLCH
 
             this.InvoiceDataView.Location = new System.Drawing.Point(10, 115);
             this.InvoiceDataView.Size = new System.Drawing.Size(800, 500);
-            this.InvoiceDataView.Columns.Add("STT", "STT");
+            this.InvoiceDataView.Columns.Add("Index", "STT");
+            this.InvoiceDataView.Columns.Add("IdWareHouse","IdWareHouse");
+            this.InvoiceDataView.Columns["IdWareHouse"].Visible = false;
             this.InvoiceDataView.Columns.Add("MH", "Tên MH");
             this.InvoiceDataView.Columns.Add("Quantity", "Số lượng");
-            this.InvoiceDataView.Columns.Add("DVT", "ĐVT");
+            this.InvoiceDataView.Columns.Add("Unit", "ĐVT");
             this.InvoiceDataView.Columns.Add("DG", "Đơn giá");
-            this.InvoiceDataView.Columns.Add("GC", "Ghi chú");
+            this.InvoiceDataView.Columns.Add("Notice", "Ghi chú");
             this.InvoiceDataView.Columns.Add("TT", "Thành tiền");
-            this.InvoiceDataView.RowCount = 1;
+            this.InvoiceDataView.AllowUserToAddRows = false;
             this.InvoiceDataView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.InvoiceDataViewCellValueChanged);
             this.Controls.Add(this.InvoiceDataView);
 
@@ -166,24 +168,31 @@ namespace QLCH
             this.TotalCostInvoiceLabel.Size = new System.Drawing.Size(100, 30);
             this.TotalCostInvoiceLabel.Text = "Tổng cộng đơn hàng:";
             this.TotalCostInvoiceLabel.Font = LabelFont;
-            this.Controls.Add(TotalCostInvoiceLabel);
+            this.Controls.Add(this.TotalCostInvoiceLabel);
 
             this.TotalCostInvoice.Location = new System.Drawing.Point(115, 655);
             this.TotalCostInvoice.Text = "0";
-            this.Controls.Add(TotalCostInvoice);
+            this.Controls.Add(this.TotalCostInvoice);
 
             this.TotalCostPlusDebtLabel.Location = new System.Drawing.Point(10, 690);
             this.TotalCostPlusDebtLabel.Size = new System.Drawing.Size(100, 30);
             this.TotalCostPlusDebtLabel.Text = "Tổng cộng đơn hàng + nợ:";
             this.TotalCostPlusDebtLabel.Font = LabelFont;
-            this.Controls.Add(TotalCostPlusDebtLabel);
+            this.Controls.Add(this.TotalCostPlusDebtLabel);
 
             this.TotalCostPlusDebt.Location = new System.Drawing.Point(115, 690);
             this.TotalCostPlusDebt.Text = "0";
-            this.Controls.Add(TotalCostPlusDebt);
+            this.Controls.Add(this.TotalCostPlusDebt);
+
+            this.SaveButton.Location = new System.Drawing.Point(300,655);
+            this.SaveButton.Size = new System.Drawing.Size(100,30);
+            this.SaveButton.Text = "Lưu và in";
+            this.SaveButton.Click += new System.EventHandler(this.SaveButtonClick);
+            this.Controls.Add(this.SaveButton);
 
 
         }
+        private System.Windows.Forms.Button SaveButton = new System.Windows.Forms.Button();
         private System.Windows.Forms.Label TotalCostInvoiceLabel = new System.Windows.Forms.Label();
         private System.Windows.Forms.TextBox TotalCostInvoice = new System.Windows.Forms.TextBox();
         private System.Windows.Forms.Label TotalCostPlusDebtLabel = new System.Windows.Forms.Label();
