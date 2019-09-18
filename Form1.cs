@@ -41,6 +41,10 @@ namespace QLCH
 
             // }
         }
+        private void CloseEvent(object sender, EventArgs e)
+        {
+            this.DBConnection.Close();
+        }
 
         private void PasswordBoxKeyDown(object sender, KeyEventArgs e)
         {

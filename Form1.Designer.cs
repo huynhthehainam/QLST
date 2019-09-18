@@ -44,6 +44,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseEvent);
 
             this.PasswordBox.Location = new System.Drawing.Point(400, 225);
             this.PasswordBox.Size = new System.Drawing.Size(100, 30);

@@ -33,7 +33,7 @@ namespace QLCH
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 800);
             this.Text = "Tạo hoá đơn mới";
-            // this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
             this.CustomerNameLabel.Location = new System.Drawing.Point(10, 10);
             this.CustomerNameLabel.Size = new System.Drawing.Size(100, 30);
@@ -70,9 +70,33 @@ namespace QLCH
             this.CustomerInformation.PlaceholderText = "Nhập thông tin khách hàng";
             this.Controls.Add(this.CustomerInformation);
 
-            this.DebtDataView.Location = new System.Drawing.Point(900, 10);
+            this.CustomerDebtLabel.Location = new System.Drawing.Point(900, 10);
+            this.CustomerDebtLabel.Size = new System.Drawing.Size(200, 30);
+            this.CustomerDebtLabel.Text = "Nợ khách hàng";
+            this.CustomerDebtLabel.Font = LabelFont;
+            this.Controls.Add(this.CustomerDebtLabel);
+
+            this.DebtDataView.Location = new System.Drawing.Point(900, 45);
             this.DebtDataView.Size = new System.Drawing.Size(400, 300);
+            this.DebtDataView.AllowUserToAddRows = false;
             this.Controls.Add(this.DebtDataView);
+
+            this.CustomerHistoryLabel.Location = new System.Drawing.Point(900, 400);
+            this.CustomerHistoryLabel.Size = new System.Drawing.Size(200, 30);
+            this.CustomerHistoryLabel.Text = "Lịch sử mua hàng";
+            this.CustomerHistoryLabel.Font = LabelFont;
+            this.Controls.Add(this.CustomerHistoryLabel);
+
+            this.CustomerHistoryView.Location = new System.Drawing.Point(900, 435);
+            this.CustomerHistoryView.Size = new System.Drawing.Size(400, 300);
+            this.CustomerHistoryView.AllowUserToAddRows = false;
+            this.Controls.Add(this.CustomerHistoryView);
+
+            this.CalendarForm.Location = new System.Drawing.Point(900,750);
+            this.CalendarForm.Size = new System.Drawing.Size(400,200);
+            this.CalendarForm.TitleBackColor = System.Drawing.Color.Red;
+            this.CalendarForm.ShowTodayCircle = true;
+            this.Controls.Add(this.CalendarForm);
 
 
             this.MHLabel.Location = new System.Drawing.Point(10, 80);
@@ -141,16 +165,19 @@ namespace QLCH
             this.InvoiceDataView.Location = new System.Drawing.Point(10, 115);
             this.InvoiceDataView.Size = new System.Drawing.Size(800, 500);
             this.InvoiceDataView.Columns.Add("Index", "STT");
-            this.InvoiceDataView.Columns.Add("IdWareHouse","IdWareHouse");
+            this.InvoiceDataView.Columns.Add("IdWareHouse", "IdWareHouse");
             this.InvoiceDataView.Columns["IdWareHouse"].Visible = false;
             this.InvoiceDataView.Columns.Add("MH", "Tên MH");
             this.InvoiceDataView.Columns.Add("Quantity", "Số lượng");
             this.InvoiceDataView.Columns.Add("Unit", "ĐVT");
-            this.InvoiceDataView.Columns.Add("DG", "Đơn giá");
+            this.InvoiceDataView.Columns.Add("UnitPrice", "Đơn giá");
             this.InvoiceDataView.Columns.Add("Notice", "Ghi chú");
-            this.InvoiceDataView.Columns.Add("TT", "Thành tiền");
+            this.InvoiceDataView.Columns.Add("TotalPrice", "Thành tiền");
+            this.InvoiceDataView.Columns.Add("DeleteButton","");
             this.InvoiceDataView.AllowUserToAddRows = false;
-            this.InvoiceDataView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.InvoiceDataViewCellValueChanged);
+            
+            // this.InvoiceDataView.Rowcont += new System.Windows.Forms.DataGridViewCellStateChangedEventHandler(this.InvoiceDataViewCellValueChanged);
+            // this.InvoiceDataView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.InvoiceDataViewCellValueChanged);
             this.Controls.Add(this.InvoiceDataView);
 
             this.DepositLabel.Location = new System.Drawing.Point(10, 620);
@@ -184,14 +211,32 @@ namespace QLCH
             this.TotalCostPlusDebt.Text = "0";
             this.Controls.Add(this.TotalCostPlusDebt);
 
-            this.SaveButton.Location = new System.Drawing.Point(300,655);
-            this.SaveButton.Size = new System.Drawing.Size(100,30);
+            this.SaveButton.Location = new System.Drawing.Point(300, 655);
+            this.SaveButton.Size = new System.Drawing.Size(100, 30);
             this.SaveButton.Text = "Lưu và in";
             this.SaveButton.Click += new System.EventHandler(this.SaveButtonClick);
             this.Controls.Add(this.SaveButton);
 
+            this.ClockLabel.Location = new System.Drawing.Point(500, 10);
+            this.ClockLabel.Size = new System.Drawing.Size(200, 60);
+            this.ClockLabel.Text = System.DateTime.Now.ToString("hh:mm:ss");
+            this.ClockLabel.Font = ClockFont;
+            this.Controls.Add(this.ClockLabel);
+
+
+            ClockTimer.Interval = 1000;
+            ClockTimer.Tick += new System.EventHandler(this.ResetClock);
+            ClockTimer.Start();
+
 
         }
+        private System.Windows.Forms.MonthCalendar CalendarForm = new System.Windows.Forms.MonthCalendar();
+        private System.Windows.Forms.Label ClockLabel = new System.Windows.Forms.Label();
+        System.Drawing.Font ClockFont = new System.Drawing.Font("Arial", 20, System.Drawing.FontStyle.Bold);
+        private System.Windows.Forms.Timer ClockTimer =  new System.Windows.Forms.Timer();
+        private System.Windows.Forms.DataGridView CustomerHistoryView = new System.Windows.Forms.DataGridView();
+        private System.Windows.Forms.Label CustomerDebtLabel = new System.Windows.Forms.Label();
+        private System.Windows.Forms.Label CustomerHistoryLabel = new System.Windows.Forms.Label();
         private System.Windows.Forms.Button SaveButton = new System.Windows.Forms.Button();
         private System.Windows.Forms.Label TotalCostInvoiceLabel = new System.Windows.Forms.Label();
         private System.Windows.Forms.TextBox TotalCostInvoice = new System.Windows.Forms.TextBox();

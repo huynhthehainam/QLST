@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\QLCH\\QLCH.csproj": {}
+    "C:\\Users\\Hai Nam\\Desktop\\C#\\QLST\\QLCH.csproj": {}
   },
   "projects": {
-    "E:\\C#\\QLCH\\QLCH.csproj": {
+    "C:\\Users\\Hai Nam\\Desktop\\C#\\QLST\\QLCH.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\QLCH\\QLCH.csproj",
+        "projectUniqueName": "C:\\Users\\Hai Nam\\Desktop\\C#\\QLST\\QLCH.csproj",
         "projectName": "QLCH",
-        "projectPath": "E:\\C#\\QLCH\\QLCH.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\QLCH\\obj\\",
+        "projectPath": "C:\\Users\\Hai Nam\\Desktop\\C#\\QLST\\QLCH.csproj",
+        "packagesPath": "C:\\Users\\Hai Nam\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Hai Nam\\Desktop\\C#\\QLST\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Hai Nam\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
