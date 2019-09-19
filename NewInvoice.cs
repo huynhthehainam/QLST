@@ -74,7 +74,7 @@ namespace QLCH
         }
         private void ResetClock(object sender, EventArgs e)
         {
-            this.ClockLabel.Text = DateTime.Now.ToString("hh:mm:ss");
+            this.ClockLabel.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void SaveButtonClick(object sender, EventArgs e)
@@ -151,7 +151,19 @@ namespace QLCH
             }
         }
 
-        private void InvoiceDataViewCellValueChanged(object sender, DataGridViewCellStateChangedEventArgs e)
+        private void InvoiceDataViewCellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            this.CalculateTotalCost();
+        }
+        private void InvoiceDataViewDeleteButton(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == this.InvoiceDataView.Columns["DeleteButton"].Index && e.RowIndex >= 0)
+            {
+                this.InvoiceDataView.Rows.RemoveAt(e.RowIndex);
+                this.CalculateTotalCost();
+            }
+        }
+        private void CalculateTotalCost()
         {
             int TotalCost = 0;
             foreach (DataGridViewRow Row in this.InvoiceDataView.Rows)
@@ -159,7 +171,6 @@ namespace QLCH
                 TotalCost += Int32.Parse(Row.Cells["TotalPrice"].Value.ToString());
             }
             this.TotalCostInvoice.Text = TotalCost.ToString();
-            Console.WriteLine("HHIHIHIHI");
         }
 
         private void AddButtonClick(object sender, EventArgs e)
@@ -169,10 +180,9 @@ namespace QLCH
                 DataRow[] WareHouseTableFilt = WareHouseTable.Select(string.Format("Name = '{0}'", this.MH.Text));
                 if (WareHouseTableFilt.Length > 0)
                 {
-                    Button DeleteButton =  new Button();
-                    
-                    this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count, WareHouseTableFilt[0]["Id"], this.MH.Text, this.Quantity.Text, this.Unit.Text, this.UnitPrice.Text, this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
+                    this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count + 1, WareHouseTableFilt[0]["Id"], this.MH.Text, this.Quantity.Text, this.Unit.Text, this.UnitPrice.Text, this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
                 }
+                this.CalculateTotalCost();
                 ResetTextBox();
             }
         }

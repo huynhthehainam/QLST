@@ -79,6 +79,7 @@ namespace QLCH
             this.DebtDataView.Location = new System.Drawing.Point(900, 45);
             this.DebtDataView.Size = new System.Drawing.Size(400, 300);
             this.DebtDataView.AllowUserToAddRows = false;
+            this.DebtDataView.RowHeadersVisible = false;
             this.Controls.Add(this.DebtDataView);
 
             this.CustomerHistoryLabel.Location = new System.Drawing.Point(900, 400);
@@ -90,10 +91,11 @@ namespace QLCH
             this.CustomerHistoryView.Location = new System.Drawing.Point(900, 435);
             this.CustomerHistoryView.Size = new System.Drawing.Size(400, 300);
             this.CustomerHistoryView.AllowUserToAddRows = false;
+            this.CustomerHistoryView.RowHeadersVisible = false;
             this.Controls.Add(this.CustomerHistoryView);
 
-            this.CalendarForm.Location = new System.Drawing.Point(900,750);
-            this.CalendarForm.Size = new System.Drawing.Size(400,200);
+            this.CalendarForm.Location = new System.Drawing.Point(900, 750);
+            this.CalendarForm.Size = new System.Drawing.Size(400, 200);
             this.CalendarForm.TitleBackColor = System.Drawing.Color.Red;
             this.CalendarForm.ShowTodayCircle = true;
             this.Controls.Add(this.CalendarForm);
@@ -108,7 +110,6 @@ namespace QLCH
             this.MH.Location = new System.Drawing.Point(65, 80);
             this.MH.Size = new System.Drawing.Size(150, 30);
             this.MH.PlaceholderText = "Nhập tên mặt hàng";
-
             this.MH.TextChanged += new System.EventHandler(this.MHTextChanged);
             this.Controls.Add(this.MH);
 
@@ -173,11 +174,17 @@ namespace QLCH
             this.InvoiceDataView.Columns.Add("UnitPrice", "Đơn giá");
             this.InvoiceDataView.Columns.Add("Notice", "Ghi chú");
             this.InvoiceDataView.Columns.Add("TotalPrice", "Thành tiền");
-            this.InvoiceDataView.Columns.Add("DeleteButton","");
+            System.Windows.Forms.DataGridViewButtonColumn DeleteButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            DeleteButton.HeaderText = "";
+            DeleteButton.Text = "Xóa";
+            DeleteButton.UseColumnTextForButtonValue = true;
+            DeleteButton.Name = "Deletebutton";
+            this.InvoiceDataView.Columns.Add(DeleteButton);
+            this.InvoiceDataView.Columns.Add("DeleteButton", "");
             this.InvoiceDataView.AllowUserToAddRows = false;
-            
-            // this.InvoiceDataView.Rowcont += new System.Windows.Forms.DataGridViewCellStateChangedEventHandler(this.InvoiceDataViewCellValueChanged);
-            // this.InvoiceDataView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.InvoiceDataViewCellValueChanged);
+            this.InvoiceDataView.RowHeadersVisible = false;
+            this.InvoiceDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.InvoiceDataViewDeleteButton);
+            this.InvoiceDataView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.InvoiceDataViewCellValueChanged);
             this.Controls.Add(this.InvoiceDataView);
 
             this.DepositLabel.Location = new System.Drawing.Point(10, 620);
@@ -219,7 +226,7 @@ namespace QLCH
 
             this.ClockLabel.Location = new System.Drawing.Point(500, 10);
             this.ClockLabel.Size = new System.Drawing.Size(200, 60);
-            this.ClockLabel.Text = System.DateTime.Now.ToString("hh:mm:ss");
+            this.ClockLabel.Text = System.DateTime.Now.ToString("HH:mm:ss");
             this.ClockLabel.Font = ClockFont;
             this.Controls.Add(this.ClockLabel);
 
@@ -233,7 +240,7 @@ namespace QLCH
         private System.Windows.Forms.MonthCalendar CalendarForm = new System.Windows.Forms.MonthCalendar();
         private System.Windows.Forms.Label ClockLabel = new System.Windows.Forms.Label();
         System.Drawing.Font ClockFont = new System.Drawing.Font("Arial", 20, System.Drawing.FontStyle.Bold);
-        private System.Windows.Forms.Timer ClockTimer =  new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer ClockTimer = new System.Windows.Forms.Timer();
         private System.Windows.Forms.DataGridView CustomerHistoryView = new System.Windows.Forms.DataGridView();
         private System.Windows.Forms.Label CustomerDebtLabel = new System.Windows.Forms.Label();
         private System.Windows.Forms.Label CustomerHistoryLabel = new System.Windows.Forms.Label();
