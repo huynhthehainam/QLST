@@ -27,6 +27,8 @@ namespace QLCH
 
         private void DebtButtonClick(object sender, EventArgs e)
         {
+            DebtView DebtViewPage = new DebtView(this.DBConnection);
+            DebtViewPage.ShowDialog();
 
         }
 

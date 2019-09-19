@@ -28,16 +28,12 @@ namespace QLCH
             MySqlDataAdapter Adapter = new MySqlDataAdapter(Command);
             Adapter.Fill(PasswordTable);
             Console.WriteLine(PasswordTable);
-            NewInvoice Tmp = new NewInvoice(this.DBConnection);
-            this.Hide();
-            Tmp.ShowDialog();
-            this.Close();
             // if (this.PasswordBox.Text == PasswordTable.Rows[0]["Password"].ToString())
             // {
-            //     Navigator NaviPage = new Navigator(this.DBConnection);
-            //     this.Hide();
-            //     NaviPage.ShowDialog();
-            //     this.Close();
+                Navigator NaviPage = new Navigator(this.DBConnection);
+                this.Hide();
+                NaviPage.ShowDialog();
+                this.Close();
 
             // }
         }

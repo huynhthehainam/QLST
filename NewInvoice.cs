@@ -17,7 +17,6 @@ namespace QLCH
         private DataTable WareHouseTable = new DataTable();
         private DataTable CustomerTable = new DataTable();
         private DataTable InvoiceTable = new DataTable();
-        private int IdCustomer = -1;
         public NewInvoice(MySql.Data.MySqlClient.MySqlConnection DBConnection)
         {
             this.DBConnection = DBConnection;
@@ -26,14 +25,9 @@ namespace QLCH
             DataTable DebtTable = new DataTable();
             AdapterGetDebt.Fill(DebtTable);
             DebtTable.Columns.Add("Name", typeof(string)).SetOrdinal(2);
-            foreach (DataRow Row in DebtTable.Rows)
-            {
-                Row["Name"] = DBSupport.ConvertIdCustomerToCustomerName(Row["Id"].ToString(), this.DBConnection);
-            }
             this.DebtDataView.DataSource = DebtTable;
             this.DebtDataView.Columns["Id"].Visible = false;
-            this.DebtDataView.Columns["IdCustomer"].Visible = false;
-            this.DebtDataView.Columns["Name"].HeaderText = "Tên khách hàng";
+            this.DebtDataView.Columns["CustomerName"].HeaderText = "Tên khách hàng";
             this.DebtDataView.Columns["Number"].HeaderText = "Tiền nợ";
             this.DebtDataView.Columns["Number"].DefaultCellStyle.Format = "N0";
             AutoCompleteStringCollection SuggestListCollection = new AutoCompleteStringCollection();
@@ -59,22 +53,102 @@ namespace QLCH
 
             MySqlDataAdapter AdapterGetInvoice = new MySqlDataAdapter("Select * from qlch.invoice", this.DBConnection);
             AdapterGetInvoice.Fill(InvoiceTable);
-            InvoiceTable.Columns.Add("CustomerName", typeof(string)).SetOrdinal(2);
-            foreach (DataRow Row in InvoiceTable.Rows)
-            {
-                Row["CustomerName"] = DBSupport.ConvertIdCustomerToCustomerName(Row["IdCustomer"].ToString(), this.DBConnection);
-            }
             this.CustomerHistoryView.DataSource = InvoiceTable;
             this.CustomerHistoryView.Columns["Id"].Visible = false;
-            this.CustomerHistoryView.Columns["IdCustomer"].Visible = false;
             this.CustomerHistoryView.Columns["CustomerName"].HeaderText = "Tên khách hàng";
             this.CustomerHistoryView.Columns["TotalMoney"].HeaderText = "Tổng tiền";
             this.CustomerHistoryView.Columns["Deposit"].HeaderText = "Tiền cọc";
             this.CustomerHistoryView.Columns["Date"].HeaderText = "Ngày";
+            DataGridViewButtonColumn RestoreButton = new DataGridViewButtonColumn();
+            RestoreButton.HeaderText = "";
+            RestoreButton.Text = "Khôi phục";
+            RestoreButton.UseColumnTextForButtonValue = true;
+            RestoreButton.Name = "RestoreButton";
+            this.CustomerHistoryView.Columns.Add(RestoreButton);
+            DataGridViewButtonColumn DeleteButton = new DataGridViewButtonColumn();
+            DeleteButton.HeaderText = "";
+            DeleteButton.Text = "Xóa";
+            DeleteButton.UseColumnTextForButtonValue = true;
+            DeleteButton.Name = "Deletebutton";
+            this.InvoiceDataView.Columns.Add(DeleteButton);
+            this.InvoiceDataView.Columns["TotalPrice"].DefaultCellStyle.Format = "N0";
+            this.InvoiceDataView.Columns["UnitPrice"].DefaultCellStyle.Format = "N0";
+           
         }
+
+
         private void ResetClock(object sender, EventArgs e)
         {
             this.ClockLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+        }
+
+        private void PreviewInvoice()
+        {
+            string HTML = @"
+                                <!DOCTYPE html>
+                                <html lang=""en"">
+                                <head>
+                                <title>PrintPreview</title>
+                                <style>
+                                table, th, td {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                }
+                                table.noborder, table.noborder th, table.noborder td {
+                                border: 0px;
+                                }
+                                </style>
+                                <meta charset=""utf-8"">
+                                </head>
+                                <body>
+                                <div align=right>Ngày " + DateTime.Now.ToString("dd/MM/yyyy") + @"</div>
+                                <div align=left>NHÀ MÁY TÔN - CỬA HÀNG SẮT THÉP</div>
+                                <h2>HOÀNG CƯỜNG</h2>
+                                <div>Địa chỉ: 0279, Quảng Thành 1, xã Nghĩa Thành, huyện Châu Đức, tỉnh BRVT</div>
+                                <div align=left>Tên Khách Hàng: " + this.CustomerName.Text + @"
+                                <br>Thông tin: " + this.CustomerInformation.Text + @"
+                                <h1 align=center>Đơn hàng</h1>
+                                <div style=""margin-left:10%;margin-right:10%"">
+                                <table style=""width:100%"">
+                                <col width=50>
+                                <col width=300>
+                                <col width=200>
+                                <col width=100>
+                                <col width=100>
+                                <col width=200>
+
+                                <col width=200>
+                                <tr>
+                                <th align=center>STT</th>
+                                <th align=center>Mặt hàng</th><th align=center>Ghi chú</th>
+                                <th align=center>Số lượng</th>
+                                <th align=center>Đơn vị tính</th>
+                                <th align=center>Đơn giá</th>
+                                <th align=center>Thành tiền</th>
+                                </tr>
+                                "; ;
+            foreach (DataGridViewRow Row in this.InvoiceDataView.Rows)
+            {
+                HTML += "<tr><td align=center>" + Row.Cells["Index"].Value.ToString() + "</td>" + "<td>" + Row.Cells["GoodsCode"].Value.ToString() + "</td>" + "<td>" + Row.Cells["Notice"].Value.ToString() + "</td>" + "<td align=right>" + Row.Cells["Quantity"].Value.ToString()
+                + "</td>" + "<td align=center>" + Row.Cells["Unit"].Value.ToString() + "</td>" + "<td align=right>" + Int32.Parse(Row.Cells["UnitPrice"].Value.ToString()).ToString("N0") + "</td>" + "<td align=right>" + Int32.Parse(Row.Cells["TotalPrice"].Value.ToString()).ToString("N0") + "</td>" + "</tr>";
+            }
+            HTML += @"
+                                </table></div>
+                                <div>
+                                <br>
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Người
+                                mua hàng
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Người bán hàng
+
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kí tên
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       Kí tên
+                                </div>
+                                </body></html>";
+            // this.FooterHTML;
+            this.InvoicePreview.DocumentText = HTML;
         }
 
         private void SaveButtonClick(object sender, EventArgs e)
@@ -82,24 +156,10 @@ namespace QLCH
             if (this.CustomerName.Text != "")
             {
                 int IdInvoice = 0;
-                if (this.IdCustomer == -1)
+                DataRow[] CustomerTableIdFilt = CustomerTable.Select(string.Format("Name ='{0}'", this.CustomerName.Text));
+                if (CustomerTableIdFilt.Length == 0)
                 {
-                    int IdCustomerInsert = 0;
-                    while (true)
-                    {
-                        DataRow[] CustomerTableIdFilt = CustomerTable.Select(string.Format("Id = '{0}'", IdCustomerInsert.ToString()));
-                        if (CustomerTableIdFilt.Length == 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            IdCustomerInsert++;
-                        }
-                    }
-                    this.IdCustomer = IdCustomerInsert;
-                    Console.WriteLine(this.IdCustomer);
-                    MySqlCommand AddNewCustomerCommand = new MySqlCommand(string.Format("Insert into qlch.customer(Id,Name,Information) values('{0}','{1}','{2}')", this.IdCustomer.ToString(), this.CustomerName.Text, this.CustomerInformation.Text), DBConnection);
+                    MySqlCommand AddNewCustomerCommand = new MySqlCommand(string.Format("Insert into qlch.customer(Name,Information) values('{0}','{1}')", this.CustomerName.Text, this.CustomerInformation.Text), DBConnection);
                     AddNewCustomerCommand.ExecuteNonQuery();
                 }
                 if (this.InvoiceDataView.RowCount > 0)
@@ -116,7 +176,7 @@ namespace QLCH
                             IdInvoice++;
                         }
                     }
-                    MySqlCommand AddNewInvoiceCommand = new MySqlCommand(string.Format("insert into qlch.invoice(Id, IdCustomer, TotalMoney, Deposit, Date) values('{0}','{1}','{2}','{3}','{4}')", IdInvoice.ToString(), IdCustomer.ToString(), this.TotalCostInvoice.Text, this.Deposit.Text, DateTime.Now.ToString("yyyyMMdd")), DBConnection);
+                    MySqlCommand AddNewInvoiceCommand = new MySqlCommand(string.Format("insert into qlch.invoice(Id, CustomerName, TotalMoney, Deposit, Date) values('{0}','{1}','{2}','{3}','{4}')", IdInvoice.ToString(), this.CustomerName.Text, this.TotalCostInvoice.Text, this.Deposit.Text, DateTime.Now.ToString("yyyyMMdd")), DBConnection);
                     AddNewInvoiceCommand.ExecuteNonQuery();
                     foreach (DataGridViewRow RowView in this.InvoiceDataView.Rows)
                     {
@@ -138,22 +198,30 @@ namespace QLCH
         {
             if (this.CustomerName.Text != "")
             {
-                foreach (DataRow Row in CustomerTable.Rows)
-                {
-                    if (Row["Name"].ToString() == this.CustomerName.Text)
-                    {
-                        this.IdCustomer = Int32.Parse(Row["Id"].ToString());
-                        this.CustomerInformation.Text = Row["Information"].ToString();
-                        break;
-                    }
 
+                DataRow[] CustomerNameFilt = CustomerTable.Select(string.Format("Name = '{0}'", this.CustomerName.Text));
+                if (CustomerNameFilt.Length > 0)
+                {
+                    this.CustomerInformation.Text = CustomerNameFilt[0]["Information"].ToString();
                 }
+                BindingSource BindingSouceDebt = new BindingSource();
+                BindingSouceDebt.DataSource = this.DebtDataView.DataSource;
+                BindingSouceDebt.Filter = string.Format("CustomerName = '{0}'", this.CustomerName.Text);
+                this.DebtDataView.DataSource = BindingSouceDebt;
+
+                BindingSource BindingSouceHistory = new BindingSource();
+                BindingSouceHistory.DataSource = this.CustomerHistoryView.DataSource;
+                BindingSouceHistory.Filter = string.Format("CustomerName = '{0}'", this.CustomerName.Text);
+                this.DebtDataView.DataSource = BindingSouceHistory;
+
+                this.PreviewInvoice();
             }
         }
 
         private void InvoiceDataViewCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             this.CalculateTotalCost();
+            this.PreviewInvoice();
         }
         private void InvoiceDataViewDeleteButton(object sender, DataGridViewCellEventArgs e)
         {
@@ -161,6 +229,14 @@ namespace QLCH
             {
                 this.InvoiceDataView.Rows.RemoveAt(e.RowIndex);
                 this.CalculateTotalCost();
+                this.PreviewInvoice();
+            }
+        }
+        private void CustomerHistoryViewCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == this.CustomerHistoryView.Columns["RestoreButton"].Index && e.RowIndex >= 0)
+            {
+
             }
         }
         private void CalculateTotalCost()
@@ -180,10 +256,11 @@ namespace QLCH
                 DataRow[] WareHouseTableFilt = WareHouseTable.Select(string.Format("Name = '{0}'", this.MH.Text));
                 if (WareHouseTableFilt.Length > 0)
                 {
-                    this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count + 1, WareHouseTableFilt[0]["Id"], this.MH.Text, this.Quantity.Text, this.Unit.Text, this.UnitPrice.Text, this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
+                    this.InvoiceDataView.Rows.Add(this.InvoiceDataView.Rows.Count + 1, WareHouseTableFilt[0]["Id"], this.MH.Text, Int32.Parse(this.Quantity.Text), this.Unit.Text, Int32.Parse(this.UnitPrice.Text), this.Notice.Text, (int)float.Parse(this.Quantity.Text) * float.Parse(this.UnitPrice.Text));
                 }
                 this.CalculateTotalCost();
-                ResetTextBox();
+                this.ResetTextBox();
+                this.PreviewInvoice();
             }
         }
         private void ResetTextBox()

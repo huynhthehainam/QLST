@@ -70,35 +70,34 @@ namespace QLCH
             this.CustomerInformation.PlaceholderText = "Nhập thông tin khách hàng";
             this.Controls.Add(this.CustomerInformation);
 
-            this.CustomerDebtLabel.Location = new System.Drawing.Point(900, 10);
+            this.CustomerDebtLabel.Location = new System.Drawing.Point(850, 10);
             this.CustomerDebtLabel.Size = new System.Drawing.Size(200, 30);
             this.CustomerDebtLabel.Text = "Nợ khách hàng";
             this.CustomerDebtLabel.Font = LabelFont;
             this.Controls.Add(this.CustomerDebtLabel);
 
-            this.DebtDataView.Location = new System.Drawing.Point(900, 45);
-            this.DebtDataView.Size = new System.Drawing.Size(400, 300);
+            this.DebtDataView.Location = new System.Drawing.Point(850, 45);
+            this.DebtDataView.Size = new System.Drawing.Size(400, 200);
             this.DebtDataView.AllowUserToAddRows = false;
             this.DebtDataView.RowHeadersVisible = false;
             this.Controls.Add(this.DebtDataView);
 
-            this.CustomerHistoryLabel.Location = new System.Drawing.Point(900, 400);
+            this.CustomerHistoryLabel.Location = new System.Drawing.Point(850, 250);
             this.CustomerHistoryLabel.Size = new System.Drawing.Size(200, 30);
             this.CustomerHistoryLabel.Text = "Lịch sử mua hàng";
             this.CustomerHistoryLabel.Font = LabelFont;
             this.Controls.Add(this.CustomerHistoryLabel);
 
-            this.CustomerHistoryView.Location = new System.Drawing.Point(900, 435);
-            this.CustomerHistoryView.Size = new System.Drawing.Size(400, 300);
+            this.CustomerHistoryView.Location = new System.Drawing.Point(850, 285);
+            this.CustomerHistoryView.Size = new System.Drawing.Size(500, 200);
             this.CustomerHistoryView.AllowUserToAddRows = false;
             this.CustomerHistoryView.RowHeadersVisible = false;
+            this.CustomerHistoryView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomerHistoryViewCellContentClick);
             this.Controls.Add(this.CustomerHistoryView);
 
-            this.CalendarForm.Location = new System.Drawing.Point(900, 750);
-            this.CalendarForm.Size = new System.Drawing.Size(400, 200);
-            this.CalendarForm.TitleBackColor = System.Drawing.Color.Red;
-            this.CalendarForm.ShowTodayCircle = true;
-            this.Controls.Add(this.CalendarForm);
+            this.InvoicePreview.Location= new System.Drawing.Point(850,490);
+            this.InvoicePreview.Size = new System.Drawing.Size(800,400);
+            this.Controls.Add(this.InvoicePreview);
 
 
             this.MHLabel.Location = new System.Drawing.Point(10, 80);
@@ -168,19 +167,12 @@ namespace QLCH
             this.InvoiceDataView.Columns.Add("Index", "STT");
             this.InvoiceDataView.Columns.Add("IdWareHouse", "IdWareHouse");
             this.InvoiceDataView.Columns["IdWareHouse"].Visible = false;
-            this.InvoiceDataView.Columns.Add("MH", "Tên MH");
+            this.InvoiceDataView.Columns.Add("GoodsCode", "Tên MH");
             this.InvoiceDataView.Columns.Add("Quantity", "Số lượng");
             this.InvoiceDataView.Columns.Add("Unit", "ĐVT");
             this.InvoiceDataView.Columns.Add("UnitPrice", "Đơn giá");
             this.InvoiceDataView.Columns.Add("Notice", "Ghi chú");
             this.InvoiceDataView.Columns.Add("TotalPrice", "Thành tiền");
-            System.Windows.Forms.DataGridViewButtonColumn DeleteButton = new System.Windows.Forms.DataGridViewButtonColumn();
-            DeleteButton.HeaderText = "";
-            DeleteButton.Text = "Xóa";
-            DeleteButton.UseColumnTextForButtonValue = true;
-            DeleteButton.Name = "Deletebutton";
-            this.InvoiceDataView.Columns.Add(DeleteButton);
-            this.InvoiceDataView.Columns.Add("DeleteButton", "");
             this.InvoiceDataView.AllowUserToAddRows = false;
             this.InvoiceDataView.RowHeadersVisible = false;
             this.InvoiceDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.InvoiceDataViewDeleteButton);
@@ -230,6 +222,8 @@ namespace QLCH
             this.ClockLabel.Font = ClockFont;
             this.Controls.Add(this.ClockLabel);
 
+            
+
 
             ClockTimer.Interval = 1000;
             ClockTimer.Tick += new System.EventHandler(this.ResetClock);
@@ -237,7 +231,7 @@ namespace QLCH
 
 
         }
-        private System.Windows.Forms.MonthCalendar CalendarForm = new System.Windows.Forms.MonthCalendar();
+        private System.Windows.Forms.WebBrowser InvoicePreview =  new System.Windows.Forms.WebBrowser();
         private System.Windows.Forms.Label ClockLabel = new System.Windows.Forms.Label();
         System.Drawing.Font ClockFont = new System.Drawing.Font("Arial", 20, System.Drawing.FontStyle.Bold);
         private System.Windows.Forms.Timer ClockTimer = new System.Windows.Forms.Timer();
